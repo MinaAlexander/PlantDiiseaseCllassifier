@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -54,24 +55,24 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.CAMERA,
                 CAMERA_PERMISSION_CODE
             )
+//            openCam()
 
-//            val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//            startActivityForResult(callCameraIntent, mCameraRequestCode)
         }
 
         mGalleryButton.setOnClickListener {
             checkPermission(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 STORAGE_PERMISSION_CODE)
+//            openGallery()
 
-//            val callGalleryIntent = Intent(Intent.ACTION_PICK)
-//            callGalleryIntent.type = "image/*"
-//            startActivityForResult(callGalleryIntent, mGalleryRequestCode)
         }
         mDetectButton.setOnClickListener {
             val results = mClassifier.recognizeImage(mBitmap).firstOrNull()
             mResultTextView.text = results?.title + "\n Confidence:" + results?.confidence
 
+        }
+        mCall.setOnClickListener {
+            openDial()
         }
     }
 
@@ -126,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         return Bitmap.createBitmap(bitmap, 0, 0, orignalWidth, originalHeight, matrix, true)
     }
 
-    private fun checkPermission(permission: String, requestCode: Int) {
+    private fun   checkPermission(permission: String, requestCode: Int) {
         if (ContextCompat.checkSelfPermission(
                 this@MainActivity,
                 permission
@@ -135,8 +136,13 @@ class MainActivity : AppCompatActivity() {
             // Requesting the permission
             ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission), requestCode)
         } else {
-            Toast.makeText(this@MainActivity, "Permission already granted", Toast.LENGTH_SHORT)
-                .show()
+            if(requestCode==100)
+                openCam()
+            else if(requestCode==101)
+                openGallery()
+//            Toast.makeText(this@MainActivity, "Permission already granted", Toast.LENGTH_SHORT)
+//                .show()
+
         }
     }
 
@@ -152,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == CAMERA_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCam()
-//                Toast.makeText(this@MainActivity, "Camera Permission Granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Camera Permission Granted", Toast.LENGTH_SHORT).show()
 
             } else {
                 Toast.makeText(this@MainActivity, "Camera Permission Denied", Toast.LENGTH_SHORT)
@@ -160,9 +166,10 @@ class MainActivity : AppCompatActivity() {
             }
         } else if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(this@MainActivity, "Storage Permission Granted", Toast.LENGTH_SHORT)
-//                    .show()
                 openGallery()
+                Toast.makeText(this@MainActivity, "Storage Permission Granted", Toast.LENGTH_SHORT)
+                    .show()
+
             } else {
                 Toast.makeText(this@MainActivity, "Storage Permission Denied", Toast.LENGTH_SHORT)
                     .show()
@@ -194,6 +201,12 @@ class MainActivity : AppCompatActivity() {
         val callGalleryIntent = Intent(Intent.ACTION_PICK)
         callGalleryIntent.type = "image/*"
         startActivityForResult(callGalleryIntent, mGalleryRequestCode)
+
+    }
+    private fun openDial() {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:<01211557311>")
+        startActivity(intent)
 
     }
 

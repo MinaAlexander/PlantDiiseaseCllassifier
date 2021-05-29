@@ -1,74 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    android:layout_gravity="center"
 
-    <Button
-        android:id="@+id/mCameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonTakePhoto"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        android:layout_marginRight="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/mPhotoImageView"/>
-    <Button
-        android:id="@+id/mGalleryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonSelectPhoto"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/mPhotoImageView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/mCameraButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintEnd_toStartOf="@+id/mDetectButton"/>
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/mCall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/sym_action_call"
+                    android:layout_marginRight="15dp"/>
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@string/callforhelp"
+                    android:textAlignment="center"
+                    android:textColor="@color/text_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="15dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/mCameraButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+
+                    android:layout_weight="1"
+
+                    android:text="@string/buttonTakePhoto" />
+
+                <Button
+                    android:id="@+id/mGalleryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+
+                    android:layout_weight="1"
+                    android:text="@string/buttonSelectPhoto" />
+
+            </LinearLayout>
 
 
-    <ImageView
-        android:id="@+id/mPhotoImageView"
-        android:layout_width="350dp"
-        android:layout_height="400dp"
-        android:contentDescription="@string/descriptionImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:color/darker_gray"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/mDetectButton"/>
+            <TextView
+                android:id="@+id/mResultTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/defaultImage"
+                android:textAlignment="center"
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
 
-    <Button
-        android:text="@string/buttonDiagnose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/mDetectButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/mResultTextView"
-        android:layout_marginBottom="8dp"/>
-    <TextView
-        android:text="@string/defaultImage"
-        android:layout_width="0dp"
-        android:layout_height="75dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="32dp"
-        android:id="@+id/mResultTextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="32dp"
-        android:textStyle="bold"
-        android:textAlignment="center"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/mPhotoImageView"
+                android:layout_width="350dp"
+                android:layout_height="400dp"
+                android:layout_margin="3dp"
+                android:contentDescription="@string/descriptionImage" />
+
+            <Button
+                android:id="@+id/mDetectButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/buttonDiagnose" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
