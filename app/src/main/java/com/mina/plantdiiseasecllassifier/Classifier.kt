@@ -20,13 +20,13 @@ class Classifier(assetManager: AssetManager, modelPath: String, labelPath: Strin
     private val IMAGE_STD = 255.0f
     private val MAX_RESULTS = 3
     private val THRESHOLD = 0.4f
-    private val TAG="Classifier"
+    private val TAG = "Classifier"
 
     data class Recognition(
         var id: String = "",
         var title: String = "",
         var confidence: Float = 0F
-    )  {
+    ) {
         override fun toString(): String {
             return "Title = $title, Confidence = $confidence)"
         }
@@ -36,7 +36,7 @@ class Classifier(assetManager: AssetManager, modelPath: String, labelPath: Strin
         INTERPRETER = Interpreter(loadModelFile(assetManager, modelPath))
         LABEL_LIST = loadLabelList(assetManager, labelPath)
 
-        Log.d(TAG,  "LABEL_LIST11 : "+LABEL_LIST)
+        Log.d(TAG, "LABEL_LIST11 : " + LABEL_LIST)
     }
 
     private fun loadModelFile(assetManager: AssetManager, modelPath: String): MappedByteBuffer {
@@ -59,13 +59,12 @@ class Classifier(assetManager: AssetManager, modelPath: String, labelPath: Strin
 
 
         val result = Array(1) { FloatArray(LABEL_LIST.size) }
-        Log.d(TAG, "result : "+result)
+        Log.d(TAG, "result : " + result)
         INTERPRETER.run(byteBuffer, result)
-        Log.d("Classifier", "byteBuffer  : "+byteBuffer )
-        Log.d("Classifier", "result 2 : "+result )
+        Log.d("Classifier", "byteBuffer  : " + byteBuffer)
+        Log.d("Classifier", "result 2 : " + result)
         return getSortedResult(result)
     }
-
 
 
     private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
@@ -79,7 +78,7 @@ class Classifier(assetManager: AssetManager, modelPath: String, labelPath: Strin
             for (j in 0 until INPUT_SIZE) {
                 val `val` = intValues[pixel++]
 
-                byteBuffer.putFloat((((`val`.shr(16)  and 0xFF) - IMAGE_MEAN) / IMAGE_STD))
+                byteBuffer.putFloat((((`val`.shr(16) and 0xFF) - IMAGE_MEAN) / IMAGE_STD))
                 byteBuffer.putFloat((((`val`.shr(8) and 0xFF) - IMAGE_MEAN) / IMAGE_STD))
                 byteBuffer.putFloat((((`val` and 0xFF) - IMAGE_MEAN) / IMAGE_STD))
             }
@@ -89,58 +88,72 @@ class Classifier(assetManager: AssetManager, modelPath: String, labelPath: Strin
 
 
     private fun getSortedResult(labelProbArray: Array<FloatArray>): List<Classifier.Recognition> {
-       Log.d(TAG, "List Size:(%d, %d, %d)".format(labelProbArray.size,labelProbArray[0].size,LABEL_LIST.size))
-         Log.d(TAG, "labelProbArray1"+labelProbArray )
+        Log.d(
+            TAG,
+            "List Size:(%d, %d, %d)".format(
+                labelProbArray.size,
+                labelProbArray[0].size,
+                LABEL_LIST.size
+            )
+        )
+        Log.d(TAG, "labelProbArray1" + labelProbArray)
 
 
         val pq = PriorityQueue(
             MAX_RESULTS,
-            Comparator<Classifier.Recognition> {
-                    (_, _, confidence1), (_, _, confidence2)
-                -> java.lang.Float.compare(confidence1, confidence2) * -1
+            Comparator<Classifier.Recognition> { (_, _, confidence1), (_, _, confidence2)
+                ->
+                java.lang.Float.compare(confidence1, confidence2) * -1
             })
 //        Log.d(TAG, "pq.string: "+pq.toString() )
 //        Log.d(TAG, "pq.toArray : "+pq.toArray() )
 //        Log.d(TAG, "pq.size : "+pq.size )
 //
         for (i in LABEL_LIST.indices) {
-            Log.d(TAG, " LABEL_LIST.indices : "+ LABEL_LIST.indices +"-- i: "+ i)
+            Log.d(TAG, " LABEL_LIST.indices : " + LABEL_LIST.indices + "-- i: " + i)
 //            Log.d("Classifier", "confidence : "+labelProbArray[0][i] )
 
             val confidence = labelProbArray[0][i]
-            Log.d(TAG, "confidence 1: "+ confidence  )
-            Log.d(TAG,(" confidence >= THRESHOLD : "+ confidence >= THRESHOLD.toString()).toString() )
+            Log.d(TAG, "confidence 1: " + confidence)
+            Log.d(
+                TAG,
+                (" confidence >= THRESHOLD : " + confidence >= THRESHOLD.toString()).toString()
+            )
 
-            Log.d(TAG,(" confidence : "+ confidence +"-- THRESHOLD : "+ THRESHOLD ).toString() )
-             if (confidence >= THRESHOLD) {
-                Log.d("Classifier", "confidence 1 : "+ confidence  )
+            Log.d(TAG, (" confidence : " + confidence + "-- THRESHOLD : " + THRESHOLD).toString())
+            if (confidence >= THRESHOLD) {
+                Log.d("Classifier", "confidence 1 : " + confidence)
 
-                pq.add(Classifier.Recognition("" + i,
-                    if (LABEL_LIST.size > i) LABEL_LIST[i] else "Unknown", confidence)
+                pq.add(
+                    Classifier.Recognition(
+                        "" + i,
+                        if (LABEL_LIST.size > i) LABEL_LIST[i] else "Unknown", confidence
+                    )
 
                 )
-                Log.d(TAG,
-                    ("LABEL_LIST.size > i : "+( LABEL_LIST.size > i ).toString()+ "--  LABEL_LIST[i]  : "+(LABEL_LIST[i])).toString()
+                Log.d(
+                    TAG,
+                    ("LABEL_LIST.size > i : " + (LABEL_LIST.size > i).toString() + "--  LABEL_LIST[i]  : " + (LABEL_LIST[i])).toString()
                 )
-                Log.d(TAG, "pq 2 : "+ pq.size + "   ---  pq : "+pq  )
-                Log.d(TAG,  " i 2: "+i )
+                Log.d(TAG, "pq 2 : " + pq.size + "   ---  pq : " + pq)
+                Log.d(TAG, " i 2: " + i)
             }
         }
-        Log.d(TAG, "pq 3: "+ pq)
+        Log.d(TAG, "pq 3: " + pq)
         Log.d(TAG, "pqsize:(%d)".format(pq.size))
 
         val recognitions = ArrayList<Classifier.Recognition>()
-        Log.d(TAG, "recognitions : "+recognitions )
-        Log.d(TAG, "pq.size : "+pq.size +"  --- MAX_RESULTS : " +MAX_RESULTS  )
+        Log.d(TAG, "recognitions : " + recognitions)
+        Log.d(TAG, "pq.size : " + pq.size + "  --- MAX_RESULTS : " + MAX_RESULTS)
         val recognitionsSize = Math.min(pq.size, MAX_RESULTS)
-        Log.d(TAG, "recognitionsSize : "+recognitionsSize )
+        Log.d(TAG, "recognitionsSize : " + recognitionsSize)
         for (i in 0 until recognitionsSize) {
 
-            Log.d(TAG , "recognitionsSize 2 : "+recognitionsSize)
-             recognitions.add(pq.poll())
+            Log.d(TAG, "recognitionsSize 2 : " + recognitionsSize)
+            recognitions.add(pq.poll())
 
-         }
-        Log.d(TAG, "pqsize:(%d)".format(pq.size) +"-- recognitions : "+recognitions)
+        }
+        Log.d(TAG, "pqsize:(%d)".format(pq.size) + "-- recognitions : " + recognitions)
         return recognitions
     }
 

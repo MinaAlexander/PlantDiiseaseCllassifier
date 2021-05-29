@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,24 +24,25 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageView
+                <Button
                     android:id="@+id/mCall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/sym_action_call"
-                    android:layout_marginRight="15dp"/>
+                    android:layout_marginRight="15dp"
+                    android:text="Call Us"
+                    android:textColor="@color/text_color_black" />
 
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:layout_marginLeft="15dp"
                     android:text="@string/callforhelp"
                     android:textAlignment="center"
                     android:textColor="@color/text_color"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="15dp"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -56,19 +56,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-
                     android:layout_weight="1"
-
-                    android:text="@string/buttonTakePhoto" />
+                    android:text="@string/buttonTakePhoto"
+                    android:textColor="@color/text_color_black" />
 
                 <Button
                     android:id="@+id/mGalleryButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-
                     android:layout_weight="1"
-                    android:text="@string/buttonSelectPhoto" />
+                    android:text="@string/buttonSelectPhoto"
+                    android:textColor="@color/text_color_black" />
 
             </LinearLayout>
 
@@ -97,7 +96,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="@string/buttonDiagnose" />
+                android:text="@string/buttonDiagnose"
+                android:textColor="@color/text_color_black" />
 
 
         </LinearLayout>

@@ -28,10 +28,11 @@ class MainActivity : AppCompatActivity() {
     private val mCameraRequestCode = 0
     private val mGalleryRequestCode = 2
 
-    private val mInputSize = 224
-    private val mModelPath = "plant_disease_model.tflite"
-    private val mLabelPath = "plant_labels.txt"
-    private val mSamplePath = "soybean.JPG"
+    //    private val mInputSize = 224
+    private val mInputSize = 299
+    private val mModelPath = "plant_efficientnetbo_model.tflite"
+    private val mLabelPath = "class.txt"
+    private val mSamplePath = "Applehealthy.JPG"
 
     private val CAMERA_PERMISSION_CODE = 100
     private val STORAGE_PERMISSION_CODE = 101
@@ -62,7 +63,8 @@ class MainActivity : AppCompatActivity() {
         mGalleryButton.setOnClickListener {
             checkPermission(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                STORAGE_PERMISSION_CODE)
+                STORAGE_PERMISSION_CODE
+            )
 //            openGallery()
 
         }
@@ -127,7 +129,7 @@ class MainActivity : AppCompatActivity() {
         return Bitmap.createBitmap(bitmap, 0, 0, orignalWidth, originalHeight, matrix, true)
     }
 
-    private fun   checkPermission(permission: String, requestCode: Int) {
+    private fun checkPermission(permission: String, requestCode: Int) {
         if (ContextCompat.checkSelfPermission(
                 this@MainActivity,
                 permission
@@ -136,9 +138,9 @@ class MainActivity : AppCompatActivity() {
             // Requesting the permission
             ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission), requestCode)
         } else {
-            if(requestCode==100)
+            if (requestCode == 100)
                 openCam()
-            else if(requestCode==101)
+            else if (requestCode == 101)
                 openGallery()
 //            Toast.makeText(this@MainActivity, "Permission already granted", Toast.LENGTH_SHORT)
 //                .show()
@@ -158,7 +160,8 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == CAMERA_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCam()
-                Toast.makeText(this@MainActivity, "Camera Permission Granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Camera Permission Granted", Toast.LENGTH_SHORT)
+                    .show()
 
             } else {
                 Toast.makeText(this@MainActivity, "Camera Permission Denied", Toast.LENGTH_SHORT)
@@ -203,6 +206,7 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(callGalleryIntent, mGalleryRequestCode)
 
     }
+
     private fun openDial() {
         val intent = Intent(Intent.ACTION_DIAL)
         intent.data = Uri.parse("tel:<01211557311>")
