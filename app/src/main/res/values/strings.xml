@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlantDiiseaseCllassifier</string>
+    <string name="app_name">Plant Disease Classifier</string>
     <string name="buttonSelectPhoto">Select Photo</string>
     <string name="buttonTakePhoto">Start Camera</string>
     <string name="buttonDiagnose">Classify</string>
